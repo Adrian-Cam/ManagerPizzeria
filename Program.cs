@@ -1,23 +1,11 @@
-﻿List<string> nameProducts = new List<string>();
-List<decimal> priceProducts = new List<decimal>();
-
-List<string> nameCustomers = new List<string>();
-List<string> addressCustomers = new List<string>();
-
-List<int> idsOrders = new List<int>();
-List<int> customerOrders = new List<int>();
-List<string> statusOrders = new List<string>();
-List<decimal> totalOrders = new List<decimal>();
-
-List<int> detOrderIds = new List<int>();
-List<int> detProductIdx = new List<int>();
-List<int> detQuantities = new List<int>();
+﻿List<Producto> productos = new List<Producto>();
+List<Cliente> clientes = new List<Cliente>();
+List<Pedido> pedidos = new List<Pedido>();
 
 int nextOrderId = 1;
 int options = 0;
 
-do
-{
+do {
     Console.Clear();
 
     Console.WriteLine("=================");
@@ -46,452 +34,237 @@ do
     switch (options)
     {
         case 1:
+        {
+            int subOpcion = 0;
+
+            do
             {
-                int subOpcion = 0;
-                do
-                {
-                    Console.Clear();
-                    Console.WriteLine("=== Gestión de productos ===");
-                    Console.WriteLine("1. Agregar producto");
-                    Console.WriteLine("2. Ver productos");
-                    Console.WriteLine("3. Volver");
-                    Console.Write("Opción: ");
+                Console.Clear();
+                Console.WriteLine("=== Gestión de productos ===");
+                Console.WriteLine("1. Agregar producto");
+                Console.WriteLine("2. Ver productos");
+                Console.WriteLine("3. Volver");
+                Console.Write("Opción: ");
 
-                    try
-                    {
-                        subOpcion = int.Parse(Console.ReadLine());
-                    }
-                    catch (FormatException)
-                    {
-                        Console.WriteLine("Debes escribir un número.");
-                        subOpcion = 0;
-                        Console.ReadKey();
-                        continue;
-                    }
-
-                    switch (subOpcion)
-                    {
-                        case 1:
-                            try
-                            {
-                                Console.Write("Nombre del producto: ");
-                                string nombre = Console.ReadLine();
-
-                                if (string.IsNullOrWhiteSpace(nombre))
-                                {
-                                    throw new Exception("El nombre no puede estar vacío.");
-                                }
-
-                                Console.Write("Precio: ");
-                                decimal precio = decimal.Parse(Console.ReadLine());
-
-                                if (precio <= 0)
-                                {
-                                    throw new Exception("El precio debe ser mayor que 0.");
-                                }
-
-                                nameProducts.Add(nombre);
-                                priceProducts.Add(precio);
-                                Console.WriteLine("Producto agregado.");
-                            }
-                            catch (FormatException)
-                            {
-                                Console.WriteLine("El precio debe ser un número.");
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error: " + ex.Message);
-                            }
-                            break;
-
-                        case 2:
-                            if (nameProducts.Count == 0)
-                            {
-                                Console.WriteLine("No hay productos registrdos.");
-                            }
-                            else
-                            {
-                                for (int i = 0; i < nameProducts.Count; i++)
-                                {
-                                    Console.WriteLine((i + 1) + ". " + nameProducts[i] + " - $" + priceProducts[i]);
-                                }
-                            }
-                            break;
-
-                        case 3:
-                            Console.WriteLine("Volviendo al menú principal...");
-                            break;
-
-                        default:
-                            Console.WriteLine("Opción no válida.");
-                            break;
-                    }
-
-                    if (subOpcion != 3)
-                    {
-                        Console.WriteLine("\nPresione una tecla para continaur...");
-                        Console.ReadKey();
-                    }
-
-                } while (subOpcion != 3);
-
-                break;
-            }
-
-        case 2:
-            {
-                int subOpcion = 0;
-
-                do
-                {
-                    Console.Clear();
-                    Console.WriteLine("=== Gestión de clientes ===");
-                    Console.WriteLine("1. Agregar cliente");
-                    Console.WriteLine("2. Ver clientes");
-                    Console.WriteLine("3. Volver");
-                    Console.Write("Opción: ");
-
-                    try
-                    {
-                        subOpcion = int.Parse(Console.ReadLine());
-                    }
-                    catch (FormatException)
-                    {
-                        Console.WriteLine("Debes escribir un número.");
-                        subOpcion = 0;
-                        Console.ReadKey();
-                        continue;
-                    }
-
-                    switch (subOpcion)
-                    {
-                        case 1:
-                            try
-                            {
-                                Console.Write("Nombre del cliente: ");
-                                string nombre = Console.ReadLine();
-
-                                if (string.IsNullOrWhiteSpace(nombre))
-                                {
-                                    throw new Exception("El nombre no puede estar vacío.");
-                                }
-
-                                Console.Write("Dirección: ");
-                                string direccion = Console.ReadLine();
-
-                                if (string.IsNullOrWhiteSpace(direccion))
-                                {
-                                    throw new Exception("La dirección no puede estar vacía.");
-                                }
-
-                                nameCustomers.Add(nombre);
-                                addressCustomers.Add(direccion);
-                                Console.WriteLine("Cliente agregado.");
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine("Error: " + ex.Message);
-                            }
-                            break;
-
-                        case 2:
-                            if (nameCustomers.Count == 0)
-                            {
-                                Console.WriteLine("No hay clientes registrados.");
-                            }
-                            else
-                            {
-                                for (int i = 0; i < nameCustomers.Count; i++)
-                                {
-                                    Console.WriteLine((i + 1) + ". " + nameCustomers[i] + " - " + addressCustomers[i]);
-                                }
-                            }
-                            break;
-
-                        case 3:
-                            Console.WriteLine("Volviendo al menú principal...");
-                            break;
-
-                        default:
-                            Console.WriteLine("Opción no válida.");
-                            break;
-                    }
-
-                    if (subOpcion != 3)
-                    {
-                        Console.WriteLine("\nPresione una tecla para continuar...");
-                        Console.ReadKey();
-                    }
-
-                } while (subOpcion != 3);
-
-                break;
-            }
-
-        case 3:
-            {
                 try
                 {
-                    if (nameCustomers.Count == 0 || nameProducts.Count == 0)
-                    {
-                        throw new Exception("Debes registrar al menos un cliente y un producto.");
-                    }
+                    subOpcion = int.Parse(Console.ReadLine());
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Debes escribir un número.");
+                    subOpcion = 0;
+                    Console.ReadKey();
+                    continue;
+                }
 
-                    for (int i = 0; i < nameCustomers.Count; i++)
-                    {
-                        Console.WriteLine((i + 1) + ". " + nameCustomers[i]);
-                    }
-                    Console.Write("Número del cliente: ");
-                    int cliente = int.Parse(Console.ReadLine());
-
-                    if (cliente < 1 || cliente > nameCustomers.Count)
-                    {
-                        throw new Exception("Ese cliente no existe.");
-                    }
-
-                    decimal total = 0;
-                    int items = 0;
-                    string seguir = "s";
-
-                    while (seguir == "s")
-                    {
+                switch (subOpcion)
+                {
+                    case 1:
                         try
                         {
-                            for (int i = 0; i < nameProducts.Count; i++)
-                            {
-                                Console.WriteLine((i + 1) + ". " + nameProducts[i] + " - $" + priceProducts[i]);
-                            }
-                            Console.Write("Número del producto: ");
-                            int prod = int.Parse(Console.ReadLine());
+                            Console.Write("Nombre del producto: ");
+                            string nombre = Console.ReadLine();
 
-                            if (prod < 1 || prod > nameProducts.Count)
+                            if (string.IsNullOrWhiteSpace(nombre))
                             {
-                                throw new Exception("Ese producto no existe.");
+                                throw new Exception("El nombre no puede estar vacío.");
                             }
 
-                            Console.Write("Cantidad: ");
-                            int cantidad = int.Parse(Console.ReadLine());
+                            Console.Write("Precio: ");
+                            decimal precio = decimal.Parse(Console.ReadLine());
 
-                            if (cantidad <= 0)
+                            if (precio <= 0)
                             {
-                                throw new Exception("La cantidad debe ser mayor que 0.");
+                                throw new Exception("El precio debe ser mayor que 0.");
                             }
 
-                            detOrderIds.Add(nextOrderId);
-                            detProductIdx.Add(prod - 1);
-                            detQuantities.Add(cantidad);
-                            total += priceProducts[prod - 1] * cantidad;
-                            items++;
-                            Console.WriteLine("Producto agregado al pedido.");
+                            productos.Add(new Producto(nombre, precio));
+                            Console.WriteLine("Producto agregado.");
                         }
                         catch (FormatException)
                         {
-                            Console.WriteLine("Debes escribir un número.");
+                            Console.WriteLine("El precio debe ser un número.");
                         }
                         catch (Exception ex)
                         {
                             Console.WriteLine("Error: " + ex.Message);
                         }
+                        break;
 
-                        Console.Write("¿Agregar otro producto? (s/n): ");
-                        seguir = Console.ReadLine().Trim().ToLower();
-                    }
+                    case 2:
+                        if (productos.Count == 0)
+                        {
+                            Console.WriteLine("No hay productos registrados.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < productos.Count; i++)
+                            {
+                                Console.WriteLine((i + 1) + ". " + productos[i].Nombre + " - $" + productos[i].Precio);
+                            }
+                        }
+                        break;
 
-                    if (items == 0)
-                    {
-                        Console.WriteLine("El pedido no tiene productos, se cancela.");
-                    }
-                    else
-                    {
-                        idsOrders.Add(nextOrderId);
-                        customerOrders.Add(cliente - 1);
-                        statusOrders.Add("Pendiente");
-                        totalOrders.Add(total);
-                        Console.WriteLine("Pedido #" + nextOrderId + " creado. Total: $" + total);
-                        nextOrderId++;
-                    }
+                    case 3:
+                        Console.WriteLine("Volviendo al menú principal...");
+                        break;
+
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
                 }
-                catch (FormatException)
+
+                if (subOpcion != 3)
                 {
-                    Console.WriteLine("Debes escribir un número.");
+                    Console.WriteLine("\nPresione una tecla para continaur...");
+                    Console.ReadKey();
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                }
-                break;
-            }
 
-        case 4:
+            } while (subOpcion != 3);
+
+            break;
+        }
+
+        case 2:
+        {
+            int subOpcion = 0;
+
+            do
             {
+                Console.Clear();
+                Console.WriteLine("=== Gestión de clientes ===");
+                Console.WriteLine("1. agregar cliente");
+                Console.WriteLine("2. Ver clientes");
+                Console.WriteLine("3. Volver");
+                Console.Write("Opción: ");
+
                 try
                 {
-                    if (idsOrders.Count == 0)
-                    {
-                        throw new Exception("No hay pedidos registrados.");
-                    }
-
-                    for (int i = 0; i < idsOrders.Count; i++)
-                    {
-                        Console.WriteLine("Pedido #" + idsOrders[i] + " | " + statusOrders[i] + " | $" + totalOrders[i]);
-                    }
-
-                    Console.Write("Número del pedido a modificar: ");
-                    int idPedido = int.Parse(Console.ReadLine());
-                    int posPedido = idsOrders.IndexOf(idPedido);
-
-                    if (posPedido == -1)
-                    {
-                        throw new Exception("Ese pedido no existe.");
-                    }
-                    if (statusOrders[posPedido] != "Pendiente")
-                    {
-                        throw new Exception("Solo se pueden modificar pedidos pendientes.");
-                    }
-
-                    List<int> posiciones = new List<int>();
-                    for (int i = 0; i < detOrderIds.Count; i++)
-                    {
-                        if (detOrderIds[i] == idPedido)
-                        {
-                            posiciones.Add(i);
-                            Console.WriteLine(posiciones.Count + ". " + nameProducts[detProductIdx[i]] + " x" + detQuantities[i]);
-                        }
-                    }
-
-                    Console.Write("Número del producto a modificar: ");
-                    int numItem = int.Parse(Console.ReadLine());
-
-                    if (numItem < 1 || numItem > posiciones.Count)
-                    {
-                        throw new Exception("Ese producto no está en el pedido.");
-                    }
-
-                    Console.Write("Nueva cantidad (0 para quitar el producto): ");
-                    int nuevaCantidad = int.Parse(Console.ReadLine());
-
-                    if (nuevaCantidad < 0)
-                    {
-                        throw new Exception("La cantidad no puede ser negativa.");
-                    }
-
-                    int posDetalle = posiciones[numItem - 1];
-
-                    if (nuevaCantidad == 0)
-                    {
-                        detOrderIds.RemoveAt(posDetalle);
-                        detProductIdx.RemoveAt(posDetalle);
-                        detQuantities.RemoveAt(posDetalle);
-                        Console.WriteLine("Producto eliminado del pedido.");
-                    }
-                    else
-                    {
-                        detQuantities[posDetalle] = nuevaCantidad;
-                        Console.WriteLine("Cantidad actualizada.");
-                    }
-
-                    decimal nuevoTotal = 0;
-                    int itemsRestantes = 0;
-                    for (int i = 0; i < detOrderIds.Count; i++)
-                    {
-                        if (detOrderIds[i] == idPedido)
-                        {
-                            nuevoTotal += priceProducts[detProductIdx[i]] * detQuantities[i];
-                            itemsRestantes++;
-                        }
-                    }
-
-                    if (itemsRestantes == 0)
-                    {
-                        idsOrders.RemoveAt(posPedido);
-                        customerOrders.RemoveAt(posPedido);
-                        statusOrders.RemoveAt(posPedido);
-                        totalOrders.RemoveAt(posPedido);
-                        Console.WriteLine("El pedido quedó vacío y fue eliminado.");
-                    }
-                    else
-                    {
-                        totalOrders[posPedido] = nuevoTotal;
-                        Console.WriteLine("Nuevo total: $" + nuevoTotal);
-                    }
+                    subOpcion = int.Parse(Console.ReadLine());
                 }
                 catch (FormatException)
                 {
                     Console.WriteLine("Debes escribir un número.");
+                    subOpcion = 0;
+                    Console.ReadKey();
+                    continue;
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine("Error: " + ex.Message);
-                }
-                break;
-            }
 
-        case 5:
-            {
-                if (idsOrders.Count == 0)
+                switch (subOpcion)
                 {
-                    Console.WriteLine("No hay pedidos registrados.");
-                }
-                else
-                {
-                    for (int i = 0; i < idsOrders.Count; i++)
-                    {
-                        Console.WriteLine("Pedido #" + idsOrders[i] + " | Cliente: " + nameCustomers[customerOrders[i]] + " | " + statusOrders[i]);
-                        for (int j = 0; j < detOrderIds.Count; j++)
+                    case 1:
+                        try
                         {
-                            if (detOrderIds[j] == idsOrders[i])
+                            Console.Write("Nombre del cliente: ");
+                            string nombre = Console.ReadLine();
+
+                            if (string.IsNullOrWhiteSpace(nombre))
                             {
-                                Console.WriteLine("   " + nameProducts[detProductIdx[j]] + " x" + detQuantities[j]);
+                                throw new Exception("El nombre no puede estar vacío.");
+                            }
+
+                            Console.Write("Dirección: ");
+                            string direccion = Console.ReadLine();
+
+                            if (string.IsNullOrWhiteSpace(direccion))
+                            {
+                                throw new Exception("La dirección no puede estar vacía.");
+                            }
+
+                            clientes.Add(new Cliente(nombre, direccion));
+                            Console.WriteLine("Cliente agregado.");
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine("Error: " + ex.Message);
+                        }
+                        break;
+
+                    case 2:
+                        if (clientes.Count == 0)
+                        {
+                            Console.WriteLine("No hay clientes registrados.");
+                        }
+                        else
+                        {
+                            for (int i = 0; i < clientes.Count; i++)
+                            {
+                                Console.WriteLine((i + 1) + ". " + clientes[i].Nombre + " - " + clientes[i].Direccion);
                             }
                         }
-                        Console.WriteLine("   Total: $" + totalOrders[i]);
-                    }
-                }
-                break;
-            }
+                        break;
 
-        case 6:
+                    case 3:
+                        Console.WriteLine("Volviendo al menú principal...");
+                        break;
+
+                    default:
+                        Console.WriteLine("Opción no válida.");
+                        break;
+                }
+
+                if (subOpcion != 3)
+                {
+                    Console.WriteLine("\nPresione una tecla para continuar...");
+                    Console.ReadKey();
+                }
+
+            } while (subOpcion != 3);
+
+            break;
+        }
+
+        case 3:
+        {
+            try
             {
-                int pendientes = 0;
-
-                for (int i = 0; i < idsOrders.Count; i++)
+                if (clientes.Count == 0 || productos.Count == 0)
                 {
-                    if (statusOrders[i] == "Pendiente")
-                    {
-                        pendientes++;
-                        Console.WriteLine("Pedido #" + idsOrders[i] + " | Cliente: " + nameCustomers[customerOrders[i]]);
-                        for (int j = 0; j < detOrderIds.Count; j++)
-                        {
-                            if (detOrderIds[j] == idsOrders[i])
-                            {
-                                Console.WriteLine("   " + nameProducts[detProductIdx[j]] + " x" + detQuantities[j]);
-                            }
-                        }
-                        Console.WriteLine("   Total: $" + totalOrders[i]);
-                    }
+                    throw new Exception("Debes registrar al menos un cliente y un producto.");
                 }
 
-                if (pendientes == 0)
+                for (int i = 0; i < clientes.Count; i++)
                 {
-                    Console.WriteLine("No hay pedidos pendientes.");
+                    Console.WriteLine((i + 1) + ". " + clientes[i].Nombre);
                 }
-                else
+                Console.Write("Número del cliente: ");
+                int numCliente = int.Parse(Console.ReadLine());
+
+                if (numCliente < 1 || numCliente > clientes.Count)
+                {
+                    throw new Exception("Ese cliente no existe.");
+                }
+
+                Pedido pedido = new Pedido(nextOrderId, clientes[numCliente - 1]);
+                string seguir = "s";
+
+                while (seguir == "s")
                 {
                     try
                     {
-                        Console.Write("\nNúmero del pedido a marcar como entregado (0 para volver): ");
-                        int idEntregado = int.Parse(Console.ReadLine());
-
-                        if (idEntregado != 0)
+                        for (int i = 0; i < productos.Count; i++)
                         {
-                            int pos = idsOrders.IndexOf(idEntregado);
-                            if (pos == -1 || statusOrders[pos] != "Pendiente")
-                            {
-                                throw new Exception("Ese pedido no está pendiente.");
-                            }
-                            statusOrders[pos] = "Entregado";
-                            Console.WriteLine("Pedido #" + idEntregado + " marcado como entregado.");
+                            Console.WriteLine((i + 1) + ". " + productos[i].Nombre + " - $" + productos[i].Precio);
                         }
+                        Console.Write("Número del producto: ");
+                        int numProducto = int.Parse(Console.ReadLine());
+
+                        if (numProducto < 1 || numProducto > productos.Count)
+                        {
+                            throw new Exception("Ese producto no existe.");
+                        }
+
+                        Console.Write("Cantidad: ");
+                        int cantidad = int.Parse(Console.ReadLine());
+
+                        if (cantidad <= 0)
+                        {
+                            throw new Exception("La cantidad debe ser mayor que 0.");
+                        }
+
+                        pedido.AgregarProducto(productos[numProducto - 1], cantidad);
+                        Console.WriteLine("Producto agregado al pedido.");
                     }
                     catch (FormatException)
                     {
@@ -501,9 +274,194 @@ do
                     {
                         Console.WriteLine("Error: " + ex.Message);
                     }
+
+                    Console.Write("¿Agregar otro producto? (s/n): ");
+                    seguir = Console.ReadLine().Trim().ToLower();
                 }
-                break;
+
+                if (pedido.Items.Count == 0)
+                {
+                    Console.WriteLine("El pedido no tiene productos, se cancela.");
+                }
+                else
+                {
+                    pedidos.Add(pedido);
+                    Console.WriteLine("Pedido #" + pedido.Id + " creado. Total: $" + pedido.Total);
+                    nextOrderId++;
+                }
             }
+            catch (FormatException)
+            {
+                Console.WriteLine("Debes escribir un numero.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            break;
+        }
+
+        case 4:
+        {
+            try
+            {
+                if (pedidos.Count == 0)
+                {
+                    throw new Exception("No hay peddos registrados.");
+                }
+
+                for (int i = 0; i < pedidos.Count; i++)
+                {
+                    Console.WriteLine("Pedido #" + pedidos[i].Id + " | " + pedidos[i].Estado + " | $" + pedidos[i].Total);
+                }
+
+                Console.Write("Número del pedido a modificar: ");
+                int idPedido = int.Parse(Console.ReadLine());
+
+                int posPedido = -1;
+                for (int i = 0; i < pedidos.Count; i++)
+                {
+                    if (pedidos[i].Id == idPedido)
+                    {
+                        posPedido = i;
+                    }
+                }
+
+                if (posPedido == -1)
+                {
+                    throw new Exception("Ese pedido no existe.");
+                }
+
+                Pedido pedido = pedidos[posPedido];
+
+                if (pedido.Estado != "Pendiente")
+                {
+                    throw new Exception("Solo se pueden modificar pedidos pendientes.");
+                }
+
+                for (int i = 0; i < pedido.Items.Count; i++)
+                {
+                    Console.WriteLine((i + 1) + ". " + pedido.Items[i].Producto.Nombre + " x" + pedido.Items[i].Cantidad);
+                }
+
+                Console.Write("Número del producto a modificar: ");
+                int numItem = int.Parse(Console.ReadLine());
+
+                if (numItem < 1 || numItem > pedido.Items.Count)
+                {
+                    throw new Exception("Ese producto no está en el pedido.");
+                }
+
+                Console.Write("Nueva cantidad (0 para quitar el producto): ");
+                int nuevaCantidad = int.Parse(Console.ReadLine());
+
+                if (nuevaCantidad < 0)
+                {
+                    throw new Exception("La cantidad no puede ser negativa.");
+                }
+
+                pedido.ModificarCantidad(numItem - 1, nuevaCantidad);
+
+                if (nuevaCantidad == 0)
+                {
+                    Console.WriteLine("Producto eliminado del pedido.");
+                }
+                else
+                {
+                    Console.WriteLine("Cantidad actualizada.");
+                }
+
+                if (pedido.Items.Count == 0)
+                {
+                    pedidos.RemoveAt(posPedido);
+                    Console.WriteLine("El pedido quedó vacío y fue eliminado.");
+                }
+                else
+                {
+                    Console.WriteLine("Nuevo total: $" + pedido.Total);
+                }
+            }
+            catch (FormatException)
+            {
+                Console.WriteLine("Debes escribir un número.");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            break;
+        }
+
+        case 5:
+        {
+            if (pedidos.Count == 0)
+            {
+                Console.WriteLine("No hay pedidos registrados.");
+            }
+            else
+            {
+                foreach (Pedido pedido in pedidos)
+                {
+                    pedido.MostrarDetalle();
+                }
+            }
+            break;
+        }
+        case 6:
+        {
+            int pendientes = 0;
+
+            foreach (Pedido pedido in pedidos)
+            {
+                if (pedido.Estado == "Pendiente")
+                {
+                    pendientes++;
+                    pedido.MostrarDetalle();
+                }
+            }
+
+            if (pendientes == 0)
+            {
+                Console.WriteLine("No hay pedidos pendientes.");
+            }
+            else
+            {
+                try
+                {
+                    Console.Write("\nNúmero del pedido a marcar como entregado (0 para volver): ");
+                    int idEntregado = int.Parse(Console.ReadLine());
+
+                    if (idEntregado != 0)
+                    {
+                        int pos = -1;
+                        for (int i = 0; i < pedidos.Count; i++)
+                        {
+                            if (pedidos[i].Id == idEntregado)
+                            {
+                                pos = i;
+                            }
+                        }
+
+                        if (pos == -1 || pedidos[pos].Estado != "Pendiente")
+                        {
+                            throw new Exception("Ese pedido no está pendiente.");
+                        }
+
+                        pedidos[pos].Estado = "Entregado";
+                        Console.WriteLine("Pedido #" + idEntregado + " marcado como entregado.");
+                    }
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Debes escribir un número.");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message);
+                }
+            }
+            break;
+        }
 
         case 7:
             Console.WriteLine("Gracias por utilizar el sistema.");
