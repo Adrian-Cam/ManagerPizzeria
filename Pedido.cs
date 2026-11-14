@@ -34,7 +34,6 @@ class Pedido
         Items.Add(new ItemPedido(producto, cantidad));
     }
 
-    // Si la nueva cantidad es 0, el producto se quita del pedido.
     public void ModificarCantidad(int indice, int nuevaCantidad)
     {
         if (nuevaCantidad == 0)
