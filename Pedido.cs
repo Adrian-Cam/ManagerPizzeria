@@ -6,7 +6,6 @@ class Pedido
     public string Estado { get; set; } = "Pendiente";
     public List<ItemPedido> Items { get; set; } = new List<ItemPedido>();
 
-    // Solo tiene get, así que EF Core no lo guarda en la base de datos: se calcula
     public decimal Total
     {
         get
