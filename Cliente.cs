@@ -1,10 +1,12 @@
-using System;
-using System.Collections.Generic;
-
 class Cliente
 {
-    public string Nombre { get; set; }
-    public string Direccion { get; set; }
+    public int Id { get; set; }
+    public string Nombre { get; set; } = "";
+    public string Direccion { get; set; } = "";
+
+    public Cliente()
+    {
+    }
 
     public Cliente(string nombre, string direccion)
     {

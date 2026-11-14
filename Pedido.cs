@@ -1,13 +1,12 @@
-using System;
-using System.Collections.Generic;
-
 class Pedido
 {
-    public int Id { get; }
-    public Cliente Cliente { get; }
-    public string Estado { get; set; }
-    public List<ItemPedido> Items { get; } = new List<ItemPedido>();
+    public int Id { get; set; }
+    public int ClienteId { get; set; }
+    public Cliente Cliente { get; set; } = null!;
+    public string Estado { get; set; } = "Pendiente";
+    public List<ItemPedido> Items { get; set; } = new List<ItemPedido>();
 
+    // Solo tiene get, así que EF Core no lo guarda en la base de datos: se calcula
     public decimal Total
     {
         get
@@ -21,9 +20,12 @@ class Pedido
         }
     }
 
-    public Pedido(int id, Cliente cliente)
+    public Pedido()
     {
-        Id = id;
+    }
+
+    public Pedido(Cliente cliente)
+    {
         Cliente = cliente;
         Estado = "Pendiente";
     }

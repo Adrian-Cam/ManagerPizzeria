@@ -1,10 +1,11 @@
-using System;
-using System.Collections.Generic;
-
 class Producto
 {
-    public string Nombre { get; set; }
+    public int Id { get; set; }
+    public string Nombre { get; set; } = "";
     public decimal Precio { get; set; }
+    public Producto()
+    {
+    }
 
     public Producto(string nombre, decimal precio)
     {
